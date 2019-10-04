@@ -10,3 +10,4 @@ $stdout.sync = true
 $:.unshift File.expand_path("../../../lib", __FILE__)
 
 puts "hello, web"
+puts ARGV.inspect
