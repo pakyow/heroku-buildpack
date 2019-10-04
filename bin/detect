@@ -1,0 +1,16 @@
+#!/bin/sh
+
+if [ -f "$1/Gemfile" ]; then
+  echo "Ruby"
+
+  if [ $(grep -c "pakyow" "$1/Gemfile") -eq 1 ]; then
+    echo "Pakyow"
+    exit 0
+  else
+    echo "no"
+    exit 1
+  fi
+else
+  echo "no"
+  exit 1
+fi
