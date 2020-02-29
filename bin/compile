@@ -1,14 +1,11 @@
-#!/bin/bash
-# The actual compilation code lives in `bin/support/ruby_compile`. This file instead
-# bootstraps the ruby needed and then executes `bin/support/ruby_compile`
+#!/usr/bin/env ruby
 
-BIN_DIR=$(cd $(dirname $0); pwd)
-BUILDPACK_DIR=$(dirname $BIN_DIR)
+$stdout.sync = true
 
-echo "default ruby:"
-echo $(ruby -v)
+$:.unshift File.expand_path("../../lib", __FILE__)
 
-source "$BIN_DIR/support/functions.sh"
-install_ruby "$BIN_DIR" "$BUILDPACK_DIR"
+require "pakyow/buildpack"
 
-$ruby_dir/bin/ruby $BIN_DIR/support/ruby_compile $@
+Pakyow::Buildpack::Base.new(
+  Pakyow::Buildpack::Config.new(*ARGV)
+).compile
