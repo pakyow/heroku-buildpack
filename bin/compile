@@ -5,6 +5,9 @@
 BIN_DIR=$(cd $(dirname $0); pwd)
 BUILDPACK_DIR=$(dirname $BIN_DIR)
 
+echo "default ruby:"
+echo $(ruby -v)
+
 source "$BIN_DIR/support/functions.sh"
 install_ruby "$BIN_DIR" "$BUILDPACK_DIR"
 
