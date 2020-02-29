@@ -1,6 +1,3 @@
 #!/usr/bin/env ruby
 
-require "pathname"
-
-release = Pathname.new(ARGV.first).join("tmp/buildpack/release.yml")
-puts release.read if release.exist?
+# TODO: https://devcenter.heroku.com/articles/buildpack-api#bin-release

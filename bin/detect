@@ -1,16 +1,9 @@
-#!/bin/sh
+#!/usr/bin/env ruby
 
-if [ -f "$1/Gemfile" ]; then
-  echo "Ruby"
+require "pathname"
 
-  if [ $(grep -c "pakyow" "$1/Gemfile") -eq 1 ]; then
-    echo "Pakyow"
-    exit 0
-  else
-    echo "no"
-    exit 1
-  fi
-else
-  echo "no"
+gemfile = Pathname.new(File.join(ARGV[0], "./Gemfile"))
+
+unless gemfile.exist? && gemfile.read.include?("pakyow")
   exit 1
-fi
+end
