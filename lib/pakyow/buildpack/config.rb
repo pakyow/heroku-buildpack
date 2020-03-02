@@ -5,11 +5,12 @@ module Pakyow
     class Config
       BLACKLIST = %w(PATH GEM_PATH GEM_HOME GIT_DIR JRUBY_OPTS JAVA_OPTS JAVA_TOOL_OPTIONS).freeze
 
-      attr_reader :build_path, :cache_path
+      attr_reader :build_path, :cache_path, :vendor_path
 
       def initialize(build_path, cache_path, env_path)
         @build_path = Pathname.new(build_path)
         @cache_path = Pathname.new(cache_path)
+        @vendor_path = @build_path.join("vendor")
         @env = load_env(env_path)
       end
 
