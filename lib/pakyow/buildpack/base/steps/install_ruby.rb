@@ -1,3 +1,5 @@
+require "fileutils"
+
 require "pakyow/buildpack/step"
 
 module Pakyow
@@ -11,14 +13,15 @@ module Pakyow
         class InstallRuby < Step
           def perform
             if cached_ruby.exist?
-              system "unzip #{cached_ruby} #{ruby_install_path}"
+              FileUtils.mkdir_p(ruby_install_path)
+              system "cd #{ruby_install_path} && tar -zxf #{cached_ruby}"
             else
               system "git clone https://github.com/rbenv/ruby-build.git"
               system "PREFIX=#{@buildpack.config.vendor_path.join("ruby-build")} ./ruby-build/install.sh"
               system "rm -r ruby-build"
 
               system "vendor/ruby-build/bin/ruby-build #{@buildpack.config.ruby_version} #{ruby_install_path}"
-              system "zip -r #{cached_ruby} #{ruby_install_path}"
+              system "cd #{ruby_install_path} && tar -zcf #{cached_ruby} *"
             end
           end
 
@@ -27,7 +30,7 @@ module Pakyow
           end
 
           private def cached_ruby
-            @buildpack.config.cache_path.join("ruby-#{@buildpack.config.ruby_version}.zip")
+            @buildpack.config.cache_path.join("ruby-#{@buildpack.config.ruby_version}.tar.gz")
           end
         end
       end
