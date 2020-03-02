@@ -22,6 +22,7 @@ module Pakyow
             # add_override "GEM_PATH", ENV["GEM_PATH"]
 
             add_override "PATH", paths.join(":")
+            add_override "LD_LIBRARY_PATH", ld_library_paths.join(":")
           end
 
           private def paths
@@ -31,6 +32,13 @@ module Pakyow
               "$HOME/vendor/bundle/ruby/#{@buildpack.config.ruby_version}/bin",
               "$HOME/vendor/ruby-#{@buildpack.config.ruby_version}/bin",
               "$PATH"
+            ]
+          end
+
+          private def ld_library_paths
+            [
+              "$HOME/vendor/ruby-#{@buildpack.config.ruby_version}/lib",
+              "$LD_LIBRARY_PATH"
             ]
           end
 
