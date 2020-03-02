@@ -4,6 +4,7 @@ module Pakyow
   module Buildpack
     class Config
       BLACKLIST = %w(PATH GEM_PATH GEM_HOME GIT_DIR JRUBY_OPTS JAVA_OPTS JAVA_TOOL_OPTIONS).freeze
+      DEFAULT_RUBY = "2.6.5"
 
       attr_reader :build_path, :cache_path, :vendor_path
 
@@ -12,6 +13,12 @@ module Pakyow
         @cache_path = Pathname.new(cache_path)
         @vendor_path = @build_path.join("vendor")
         @env = load_env(env_path)
+      end
+
+      def ruby_version
+        # TODO: Use .ruby-version if present.
+        #
+        DEFAULT_RUBY
       end
 
       private def load_env(path)

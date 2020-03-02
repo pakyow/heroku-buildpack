@@ -2,6 +2,7 @@ module Pakyow
   module Buildpack
     class Base
       require "pakyow/buildpack/base/steps/install_ruby"
+      require "pakyow/buildpack/base/steps/setup_profiled"
 
       attr_reader :config
 
@@ -15,6 +16,18 @@ module Pakyow
 
         work_at @config.build_path do
           Steps::InstallRuby.perform(self)
+          Steps::SetupProfiled.perform(self)
+
+          puts @config.build_path
+          puts "---"
+          system "ls #{@config.build_path}"
+          puts "---"
+
+          # bundle install
+          # bundle_command = "#{bundle_bin} install --without #{bundle_without} --path vendor/bundle --binstubs #{bundler_binstubs_path}"
+
+          # cleanup
+          #   - remove git dirs (see post_bundler)
         end
       end
 
