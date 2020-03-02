@@ -20,17 +20,30 @@ module Pakyow
               system "PREFIX=#{@buildpack.config.vendor_path.join("ruby-build")} ./ruby-build/install.sh"
               system "rm -r ruby-build"
 
-              system "vendor/ruby-build/bin/ruby-build #{@buildpack.config.ruby_version} #{ruby_install_path}"
+              system "#{ruby_build_options} vendor/ruby-build/bin/ruby-build #{@buildpack.config.ruby_version} #{ruby_install_path}"
+              system "rm -r vendor/ruby-build"
+
+              # cache the compiled ruby for future builds
               system "cd #{ruby_install_path} && tar -zcf #{cached_ruby} *"
+
+              # move the compiled ruby into the build directory
+              FileUtils.mkdir_p("vendor/ruby-#{@buildpack.config.ruby_version}")
+              system "cp -r #{ruby_install_path}/* vendor/ruby-#{@buildpack.config.ruby_version}"
             end
           end
 
           private def ruby_install_path
-            @buildpack.config.vendor_path.join("ruby-#{@buildpack.config.ruby_version}")
+            Pathname.new("/app/vendor/ruby-#{@buildpack.config.ruby_version}")
           end
 
           private def cached_ruby
             @buildpack.config.cache_path.join("ruby-#{@buildpack.config.ruby_version}.tar.gz")
+          end
+
+          private def ruby_build_options
+            [
+              "RUBY_CONFIGURE_OPTS='--disable-install-doc'",
+            ].join(" ")
           end
         end
       end

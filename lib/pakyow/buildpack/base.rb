@@ -18,11 +18,6 @@ module Pakyow
           Steps::InstallRuby.perform(self)
           Steps::SetupProfiled.perform(self)
 
-          puts @config.build_path
-          puts "---"
-          system "ls #{@config.build_path}"
-          puts "---"
-
           # bundle install
           # bundle_command = "#{bundle_bin} install --without #{bundle_without} --path vendor/bundle --binstubs #{bundler_binstubs_path}"
 
