@@ -21,24 +21,26 @@ module Pakyow
             #
             # add_override "GEM_PATH", ENV["GEM_PATH"]
 
+            ENV["PATH"] = paths.join(":")
             add_override "PATH", paths.join(":")
+
+            ENV["LD_LIBRARY_PATH"] = ld_library_paths.join(":")
             add_override "LD_LIBRARY_PATH", ld_library_paths.join(":")
           end
 
           private def paths
             [
-              "$HOME/bin",
-              "$HOME/vendor/bundle/bin",
-              "$HOME/vendor/bundle/ruby/#{@buildpack.config.ruby_version}/bin",
-              "$HOME/vendor/ruby-#{@buildpack.config.ruby_version}/bin",
-              "$PATH"
+              "/app/bin",
+              "/app/vendor/bundle/bin",
+              "/app/vendor/bundle/ruby/#{@buildpack.config.ruby_version}/bin",
+              "/app/vendor/ruby-#{@buildpack.config.ruby_version}/bin",
+              "/usr/local/bin:/usr/bin:/bin"
             ]
           end
 
           private def ld_library_paths
             [
-              "$HOME/vendor/ruby-#{@buildpack.config.ruby_version}/lib",
-              "$LD_LIBRARY_PATH"
+              "/app/vendor/ruby-#{@buildpack.config.ruby_version}/lib"
             ]
           end
 
