@@ -1,3 +1,11 @@
 #!/usr/bin/env ruby
 
-# TODO: https://devcenter.heroku.com/articles/buildpack-api#bin-release
+# Output the expected values:
+#
+#   * https://devcenter.heroku.com/articles/buildpack-api#bin-release
+#
+# We'll want to specify `pakyow prelaunch:release` as a release phase task:
+#
+#   * https://devcenter.heroku.com/articles/release-phase#specifying-release-phase-tasks
+#
+# And emit the other services that we want to start.

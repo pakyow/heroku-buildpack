@@ -12,20 +12,11 @@ module Pakyow
 
             add_default "LANG", "en_US.UTF-8"
 
-            # TODO: Figure out what these need to be after bundling into vendor.
-            #
-            # ENV["GEM_PATH"] = slug_vendor_base
-            # ENV["GEM_HOME"] = slug_vendor_base
-
-            # TODO: Figure this out once we're setting above:
-            #
-            # add_override "GEM_PATH", ENV["GEM_PATH"]
+            add_override "PATH", paths
+            add_override "LD_LIBRARY_PATH", ld_library_paths
 
             ENV["PATH"] = paths(@buildpack.config.build_path)
             ENV["LD_LIBRARY_PATH"] = ld_library_paths(@buildpack.config.build_path)
-
-            add_override "PATH", paths
-            add_override "LD_LIBRARY_PATH", ld_library_paths
           end
 
           private def paths(prefix = "$HOME")
