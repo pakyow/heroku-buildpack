@@ -17,7 +17,9 @@ module Pakyow
           Steps::SetupProfiled.perform(self)
           Steps::BundleInstall.perform(self)
 
-          # cleanup
+          # TODO: run pakyow prelaunch:build
+
+          # TODO: cleanup
           #   - remove git dirs (see post_bundler)
         end
       end
