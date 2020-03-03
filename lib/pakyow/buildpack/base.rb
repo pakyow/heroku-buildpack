@@ -18,31 +18,27 @@ module Pakyow
         work_at @config.build_path do
           Steps::InstallRuby.perform(self)
           Steps::SetupProfiled.perform(self)
-          # Steps::BundleInstall.perform(self)
+          Steps::BundleInstall.perform(self)
 
-          # cache the compiled ruby for future builds (might cache the entire vendor dir)
-          system "cd #{@config.ruby_install_path} && tar -zcf #{@config.cached_ruby} *"
+          # # cache the compiled ruby for future builds (might cache the entire vendor dir)
+          # system "cd #{@config.ruby_install_path} && tar -zcf #{@config.cached_ruby} *"
 
-          # move the vendor directory into the build directory
-          # TODO: See if this is actually necessary...
-          FileUtils.mkdir_p("vendor")
-          system "cp -r /app/vendor/* vendor"
+          # # move the vendor directory into the build directory
+          # # TODO: See if this is actually necessary...
+          # FileUtils.mkdir_p("vendor")
+          # system "cp -r /app/vendor/* vendor"
 
           # FileUtils.rm_r(".bundle")
           # FileUtils.mkdir_p(".bundle")
           # system "cp -r /app/.bundle/* .bundle"
 
-          # cleanup
-          #   - remove git dirs (see post_bundler)
+          # # cleanup
+          # #   - remove git dirs (see post_bundler)
         end
       end
 
-      private def work_at(path)
-        original_path = Dir.pwd
-        Dir.chdir(@config.build_path)
-        yield
-      ensure
-        Dir.chdir(original_path)
+      def work_at(path, &block)
+        Dir.chdir(path, &block)
       end
     end
   end

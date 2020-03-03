@@ -6,10 +6,18 @@ module Pakyow
       module Steps
         class BundleInstall < Step
           def perform
-            # TODO: I haven't tried this (things are sort of working now), but I'd like to see if we
-            # can avoid interacting with anything in `/app` once the compiled ruby is moved back.
+            # TODO: For tomorrow...
             #
-            # once installing bundler like below, see if we can run it through bin/bundler or something...
+            # * finish the below
+            # * see if the whole moving vendor thing is necessary
+            #   * hopefully because of below we're now installing to build path
+            #   * also check the .bundle/config move... that should be in the build path now?
+            # * figure out the correct cache strategy
+            # * move on to release
+            #   * emit other addons (postgres, redis)
+            #   * run the prelaunch stuff
+
+
             system "vendor/ruby-#{@buildpack.config.ruby_version}/bin/gem install bundler -v #{@buildpack.config.bundler_version} -f --no-doc"
 
             system "vendor/ruby-#{@buildpack.config.ruby_version}/bin/bundle config without 'development:test'"

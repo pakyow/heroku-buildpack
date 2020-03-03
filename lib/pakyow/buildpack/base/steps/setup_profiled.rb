@@ -21,27 +21,27 @@ module Pakyow
             #
             # add_override "GEM_PATH", ENV["GEM_PATH"]
 
-            ENV["PATH"] = paths.join(":")
-            add_override "PATH", paths.join(":")
+            ENV["PATH"] = paths(@buildpack.config.build_path)
+            ENV["LD_LIBRARY_PATH"] = ld_library_paths(@buildpack.config.build_path)
 
-            ENV["LD_LIBRARY_PATH"] = ld_library_paths.join(":")
-            add_override "LD_LIBRARY_PATH", ld_library_paths.join(":")
+            add_override "PATH", paths
+            add_override "LD_LIBRARY_PATH", ld_library_paths
           end
 
-          private def paths
+          private def paths(prefix = "$HOME")
             [
-              "/app/bin",
-              "/app/vendor/bundle/bin",
-              "/app/vendor/bundle/ruby/#{@buildpack.config.ruby_version}/bin",
-              "/app/vendor/ruby-#{@buildpack.config.ruby_version}/bin",
+              File.join(prefix, "bin"),
+              File.join(prefix, "vendor/bundle/bin"),
+              File.join(prefix, "vendor/bundle/ruby/#{@buildpack.config.ruby_version}/bin"),
+              File.join(prefix, "vendor/ruby-#{@buildpack.config.ruby_version}/bin"),
               "/usr/local/bin:/usr/bin:/bin"
-            ]
+            ].join(":")
           end
 
-          private def ld_library_paths
+          private def ld_library_paths(prefix = "$HOME")
             [
-              "/app/vendor/ruby-#{@buildpack.config.ruby_version}/lib"
-            ]
+              File.join(prefix, "vendor/ruby-#{@buildpack.config.ruby_version}/lib")
+            ].join(":")
           end
 
           private def add_default(key, value)

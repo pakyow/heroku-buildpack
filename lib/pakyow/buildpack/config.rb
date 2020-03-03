@@ -17,6 +17,10 @@ module Pakyow
         @env = load_env(env_path)
       end
 
+      def stack
+        ENV["STACK"]
+      end
+
       def ruby_version
         # TODO: Use .ruby-version if present. If not, pull from:
         #
@@ -26,7 +30,8 @@ module Pakyow
       end
 
       def ruby_install_path
-        Pathname.new("/app/vendor/ruby-#{ruby_version}")
+        # Pathname.new("/app/vendor/ruby-#{ruby_version}")
+        @vendor_path.join("ruby-#{ruby_version}")
       end
 
       def cached_ruby
