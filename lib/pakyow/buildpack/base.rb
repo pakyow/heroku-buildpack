@@ -4,6 +4,7 @@ module Pakyow
       require "pakyow/buildpack/base/steps/install_ruby"
       require "pakyow/buildpack/base/steps/setup_profiled"
       require "pakyow/buildpack/base/steps/bundle_install"
+      require "pakyow/buildpack/base/steps/prelaunch"
 
       attr_reader :config
 
@@ -16,8 +17,7 @@ module Pakyow
           Steps::InstallRuby.perform(self)
           Steps::SetupProfiled.perform(self)
           Steps::BundleInstall.perform(self)
-
-          # TODO: run pakyow prelaunch:build
+          Steps::Prelaunch.perform(self)
 
           # TODO: cleanup
           #   - remove git dirs (see post_bundler)

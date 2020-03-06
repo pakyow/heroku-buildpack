@@ -1,20 +1,11 @@
 #!/usr/bin/env ruby
 
-# Output the expected values:
-#
-#   * https://devcenter.heroku.com/articles/buildpack-api#bin-release
-#
-# We'll want to specify `pakyow prelaunch:release` as a release phase task:
-#
-#   * https://devcenter.heroku.com/articles/release-phase#specifying-release-phase-tasks
-#
-# And emit the other services that we want to start.
-
 puts <<~YAML
   ---
   addons:
     - heroku-postgresql
     - heroku-redis
   default_process_types:
+    release: pakyow prelaunch:release -e production
     web: pakyow boot -e production
 YAML
