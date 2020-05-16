@@ -2,9 +2,6 @@
 
 puts <<~YAML
   ---
-  addons:
-    - heroku-postgresql
-    - heroku-redis
   default_process_types:
     release: pakyow prelaunch:release -e production
     web: pakyow boot -e production
