@@ -4,5 +4,5 @@ puts <<~YAML
   ---
   default_process_types:
     release: pakyow prelaunch:release -e production
-    web: pakyow boot -e production --port $PORT
+    web: pakyow boot -e production --port $PORT --host 0.0.0.0
 YAML
