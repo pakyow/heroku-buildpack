@@ -5,6 +5,7 @@ module Pakyow
       require "pakyow/buildpack/base/steps/setup_profiled"
       require "pakyow/buildpack/base/steps/bundle_install"
       require "pakyow/buildpack/base/steps/prelaunch"
+      require "pakyow/buildpack/base/steps/cleanup"
 
       attr_reader :config
 
