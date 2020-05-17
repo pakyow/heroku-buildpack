@@ -1,5 +1,13 @@
 #!/usr/bin/env ruby
 
+# Setup Bundler automatically.
+#
+if !defined?(Bundler)
+  vendor_path = File.join(Dir.pwd, "vendor")
+  system "gem install bundler -v 2.1.4 --install-dir #{vendor_path}"
+  $LOAD_PATH.unshift(File.join(vendor_path, "/gems/bundler-2.1.4/lib/"))
+end
+
 $stdout.sync = true
 
 $:.unshift File.expand_path("../../lib", __FILE__)
