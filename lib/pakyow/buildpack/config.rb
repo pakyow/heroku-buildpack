@@ -22,15 +22,26 @@ module Pakyow
       end
 
       def ruby_version
-        # TODO: Use .ruby-version if present. If not, pull from:
-        #
-        #   Bundler::LockfileParser.new(File.read("Gemfile.lock")).ruby_version
-        #
-        DEFAULT_RUBY
+        dot_ruby_version || Bundler::LockfileParser.new(File.read("Gemfile.lock")).ruby_version || DEFAULT_RUBY
+      end
+
+      private def dot_ruby_version
+        if dot_ruby_version?
+          dot_ruby_version_path.read.strip
+        else
+          nil
+        end
+      end
+
+      private def dot_ruby_version?
+        dot_ruby_version_path.exist?
+      end
+
+      private def dot_ruby_version_path
+        @build_path.join(".ruby-version")
       end
 
       def ruby_install_path
-        # Pathname.new("/app/vendor/ruby-#{ruby_version}")
         @vendor_path.join("ruby-#{ruby_version}")
       end
 
@@ -39,13 +50,11 @@ module Pakyow
       end
 
       def bundler_version
-        # if bundled?
-        #   bundler_options.bundler_version || DEFAULT_BUNDLER
-        # else
-        #   DEFAULT_BUNDLER
-        # end
-
-        DEFAULT_BUNDLER
+        if bundled?
+          bundler_options.bundler_version || DEFAULT_BUNDLER
+        else
+          DEFAULT_BUNDLER
+        end
       end
 
       def bundler_path
@@ -76,19 +85,21 @@ module Pakyow
         BLACKLIST.include?(key.to_s)
       end
 
-      # private def bundled?
-      #   gemfile_lock_path.exist?
-      # end
+      private def bundled?
+        gemfile_lock_path.exist?
+      end
 
-      # private def bundler_options
-      #   require "bundler"
+      private def bundler_options
+        # Require here in case the project doesn't use bundler.
+        #
+        require "bundler"
 
-      #   Bundler::LockfileParser.new(gemfile_lock_path.read)
-      # end
+        Bundler::LockfileParser.new(gemfile_lock_path.read)
+      end
 
-      # private def gemfile_lock_path
-      #   @build_path.join("Gemfile.lock")
-      # end
+      private def gemfile_lock_path
+        @build_path.join("Gemfile.lock")
+      end
     end
   end
 end
