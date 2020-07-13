@@ -20,6 +20,9 @@ module Pakyow
             system "HOME=#{@buildpack.config.build_path} bundle install"
 
             @buildpack.work_at @buildpack.config.vendor_path do
+              puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+              system "cat bin/bundle"
+
               system "tar -zcf #{cache_path} bundle"
             end
           end
