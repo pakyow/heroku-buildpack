@@ -14,7 +14,9 @@ module Pakyow
               system "wget -q #{ruby_url}"
               system "tar -xzf ruby-#{@buildpack.config.ruby_version}.tgz"
               system "rm ruby-#{@buildpack.config.ruby_version}.tgz"
+            end
 
+            @buildpack.work_at @buildpack.config.ruby_install_path do
               puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
               system "cat bin/bundle"
             end
