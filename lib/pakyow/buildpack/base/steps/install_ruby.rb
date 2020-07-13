@@ -15,9 +15,10 @@ module Pakyow
               system "tar -xzf ruby-#{@buildpack.config.ruby_version}.tgz"
               system "rm ruby-#{@buildpack.config.ruby_version}.tgz"
 
-              puts "!!! ls -al"
-              puts "!!! ls -al bin"
-              puts "!!! cat bin/bundle"
+              puts "!!!"
+              system "ls -al"
+              system "ls -al bin"
+              system "cat bin/bundle"
             end
           end
 
