@@ -12,16 +12,16 @@ module Pakyow
 
             write_bundle_shim
 
-            # if cached?
-            #   @buildpack.work_at @buildpack.config.vendor_path do
-            #     system "tar -zxf #{cache_path}"
-            #   end
-            # end
+            if cached?
+              @buildpack.work_at @buildpack.config.vendor_path do
+                system "tar -zxf #{cache_path}"
+              end
+            end
 
             system "HOME=#{@buildpack.config.build_path} bundle config without 'development:test'"
             system "HOME=#{@buildpack.config.build_path} bundle config deployment true"
             system "HOME=#{@buildpack.config.build_path} bundle config path vendor/bundle"
-            system "HOME=#{@buildpack.config.build_path} bundle install"
+            system "HOME=#{@buildpack.config.build_path} bundle install --binstubs vendor/bundle/bin"
 
             @buildpack.work_at @buildpack.config.vendor_path do
               system "tar -zcf #{cache_path} bundle"
